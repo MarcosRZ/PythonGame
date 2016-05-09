@@ -1,9 +1,8 @@
 from Exceptions import *
-
+import DependencyInjector as DI
 class BuildingManager:
 
-    def __init__(self, resourceManager):
-        self.resourceManager = resourceManager
+    def __init__(self):
         self.availableBuildings = []
         self.buildings = []
 
@@ -11,7 +10,7 @@ class BuildingManager:
         for b in self.buildings:
             try:
                 # IoC FTW!! If not enough resources, exception is raised and harvest does not take place
-                self.resourceManager.apply_cost(b.work())
+                DI.get("resourceManager").apply_cost(b.work())
                 b.harvest()
             except NotEnoughResourcesException:
                 print("Not enough resources to work!")
@@ -19,7 +18,7 @@ class BuildingManager:
     def collect(self):
         for b in self.buildings:
             # If we'd not enough resources to work, harvest is zero
-            self.resourceManager.add_resources(b.collect())
+            DI.get("resourceManager").add_resources(b.collect())
 
     def add_building(self, building):
         self.buildings.append(building)
@@ -44,7 +43,7 @@ class Farm:
 
     def harvest(self):
         self.harvestAmount = self.production
-        print("Harvest for {}[{}] is {}".format(self.name, self, self.harvestAmount))
+        #print("Harvest for {}[{}] is {}".format(self.name, self, self.harvestAmount))
     # Tock returns the harvest made in the last tick
     def collect(self):
         self.r = self.harvestAmount

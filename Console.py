@@ -1,31 +1,51 @@
 __doc__ = "Client class that builds the application menus"
+import DependencyInjector as DI
 
-from Menu import Menu
 from Actions import *
 from BuildingManager import *
 from ResourceManager import *
 from Clock import Clock
-import threading
 
 
 Rm = ResourceManager()
-Bm = BuildingManager(Rm)
+Bm = BuildingManager()
+
+# Timing engine
+c = Clock(1)
+c.add_worker(Bm)
+
+# Enable dependency injector
+DI.addDep("resourceManager", Rm)
+DI.addDep("buildingManager", Bm)
+DI.addDep("clock", c)
 
 Bm.add_available_building(Farm())
 
 # Menus
 main = Menu("Main Menu")
-building = BuildMenu("Building", Bm, Rm)
 
-main.addItem(building)
-
+# First Level Menus
+building = BuildMenu("Building")
+infrastructure = Menu("Infrastructure")
+resources = Menu("Resources")
 version = PrintVersionAction("Print Version")
 
+# Infrastructure Menus
+infrastructure.addItem(ShowInfrastructureAction())
+
+# Resources Menus
+resources.addItem(ShowResourcesAction())
+
+main.addItem(building)
+main.addItem(infrastructure)
+main.addItem(resources)
 main.addItem(version)
 
 
-c = Clock(1)
-c.add_worker(Bm)
+
+
+
+# GO!
 c.start()
 
 main.execute()

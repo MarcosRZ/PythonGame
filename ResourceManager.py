@@ -9,10 +9,11 @@ class ResourceManager:
     def apply_cost(self, cost):
         if self.resources >= cost:
             self.resources -= cost
-            print ("Cost applied [{}] -> Resources: {}".format(cost, self.resources))
+            #print ("Cost applied [{}] -> Resources: {}".format(cost, self.resources))
         else:
             raise NotEnoughResourcesException()
 
     def add_resources(self, resources):
         self.resources += resources
-        print ("Resources added [{}] -> Resources: {}".format(resources, self.resources))
+        #print ("Resources added [{}] -> Resources: {}".format(resources, self.resources))
+

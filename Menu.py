@@ -1,10 +1,18 @@
 __doc__ = "Menu class that represents a MenuComponent. It has a list of items, that could be other MenuComponents, or Actions(leafs)"
 
-class Menu:
+class GenericMenuItem:
+
+    def __init__(self, label = "No Label"):
+        self.label = label
+
+    def execute(self):
+        pass
+
+class Menu(GenericMenuItem):
 
     def __init__(self, label):
+        GenericMenuItem.__init__(self, label)
         self.items = []
-        self.label = label
         self.items.append(GoBackAction())
 
     def execute(self):
@@ -37,8 +45,8 @@ class Menu:
 # This action is common for all menus. Good place to define it
 class GoBackAction:
 
-    def __init__(self):
-        self.label = "Go Back"
+    def __init__(self, label = "Go back"):
+        self.label = label
 
     def execute(self):
         pass
