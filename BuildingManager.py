@@ -44,7 +44,7 @@ class Farm:
 
     def harvest(self):
         self.harvestAmount = self.production
-        print("Harvest for {} is {}".format(self.name, self.harvestAmount))
+        print("Harvest for {}[{}] is {}".format(self.name, self, self.harvestAmount))
     # Tock returns the harvest made in the last tick
     def collect(self):
         self.r = self.harvestAmount

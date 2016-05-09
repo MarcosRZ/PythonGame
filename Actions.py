@@ -1,7 +1,7 @@
 __doc__ = "This file defines a set of Actions corresponding to the leafs in Composite Pattern"
 from Menu import Menu
 from Exceptions import *
-
+import copy
 class BuildMenu(Menu):
 
     def __init__(self, label, buildingManager, resourceManager):
@@ -17,15 +17,16 @@ class BuildMenu(Menu):
 class BuildAction:
 
     def __init__(self, building, buildingManager,resourceManager):
-        self.label = building.name
+
         self.building = building
+        self.label = building.name
         self.resourceManager = resourceManager
         self.buildingManager = buildingManager
 
     def execute(self):
         try:
             self.resourceManager.apply_cost(self.building.buildingCost)
-            self.buildingManager.add_building(self.building)
+            self.buildingManager.add_building(copy.copy(self.building))
         except NotEnoughResourcesException:
             print("Not enough resources to build!")
 
